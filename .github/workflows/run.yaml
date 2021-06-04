@@ -1,8 +1,6 @@
 name: Say Hello World
 on:
   issues:
-    types:
-      - opened
 
 jobs:
   sayHelloWorld:
