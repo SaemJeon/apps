@@ -52,19 +52,27 @@ module.exports = function (app) {
                     app.log(context);
                     app.log(context.payload.pull_request.base.ref);
                     app.log(context.payload.pull_request.mergeable_state);
-                    if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 3];
+                    if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 6];
+                    if (!(context.payload.pull_request.mergeable_state == "clean")) return [3 /*break*/, 2];
                     return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
                             body: "Executing rush extract-api",
                         }))];
                 case 1:
                     _b.sent();
-                    return [4 /*yield*/, context.octokit.issues.removeLabel(context.issue({
-                            name: "extract-api"
-                        }))];
-                case 2:
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
+                        body: "This branch is not up-to-date with the ${context.payload.pull_request.base.ref} branch",
+                    }))];
+                case 3:
                     _b.sent();
-                    _b.label = 3;
-                case 3: return [2 /*return*/];
+                    _b.label = 4;
+                case 4: return [4 /*yield*/, context.octokit.issues.removeLabel(context.issue({
+                        name: "extract-api"
+                    }))];
+                case 5:
+                    _b.sent();
+                    _b.label = 6;
+                case 6: return [2 /*return*/];
             }
         });
     }); });
