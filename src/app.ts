@@ -1,6 +1,8 @@
 import { Probot } from "probot";
 
 export = (app: Probot) => {
+    app.log("Probot app started");
+
     app.on("issues.opened", async (context) => {
         const issueComment = context.issue({
             body: "Thanks for opening this issue!",
@@ -30,3 +32,4 @@ export = (app: Probot) => {
         await context.octokit.issues.createComment(issueComment);
     });
 };
+

@@ -43,6 +43,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 module.exports = function (app) {
+    app.log("Probot app started");
     app.on("issues.opened", function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var issueComment;
         return __generator(this, function (_a) {
