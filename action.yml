@@ -6,6 +6,6 @@ branding:
 runs:
   using: "composite"
   steps:
-    run: "npm ci"
-    run: "npm run build"
-    main: "node lib/index.js"
+    - run: "npm ci"
+    - run: "npm run build"
+    - run : "node lib/index.js"
