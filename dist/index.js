@@ -44,57 +44,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 module.exports = function (app) {
     app.log("Probot app started");
-    app.on("issues.opened", function (context) { return __awaiter(void 0, void 0, void 0, function () {
-        var issueComment;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    issueComment = context.issue({
-                        body: "Thanks for opening this issue!",
-                    });
-                    return [4 /*yield*/, context.octokit.issues.createComment(issueComment)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    app.on("issue_comment.created", function (context) { return __awaiter(void 0, void 0, void 0, function () {
-        var issueComment;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    issueComment = context.issue({
-                        body: "Thanks for your comment!",
-                    });
-                    return [4 /*yield*/, context.octokit.issues.createComment(issueComment)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    app.on("issues.assigned", function (context) { return __awaiter(void 0, void 0, void 0, function () {
-        var issueComment;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    issueComment = context.issue({
-                        body: "It is assigned.",
-                    });
-                    return [4 /*yield*/, context.octokit.issues.createComment(issueComment)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
     app.on("pull_request.labeled", function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var issueComment, label;
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    app.log(context);
                     if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 3];
                     issueComment = context.issue({
                         body: "Label is changed to extract-api",
