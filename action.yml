@@ -4,11 +4,5 @@ branding:
   icon: "gift"
   color: orange
 runs:
-  using: "composite"
-  steps:
-    - run: "npm ci"
-      shell: bash
-    - run: "npm run build"
-      shell: bash
-    - run : "node lib/index.js"
-      shell: bash
+  using: "node12"
+  main: "dist/index.js"
