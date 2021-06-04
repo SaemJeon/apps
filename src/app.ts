@@ -15,7 +15,7 @@ export = (app: Probot) => {
                 }));
             } else {
                 await context.octokit.issues.createComment(context.issue({
-                    body: `This branch is not up-to-date with the ${context.payload.pull_request.base.ref} branch`,
+                    body: `This branch is not up-to-date with the target branch, ${context.payload.pull_request.base.ref}`,
                 }));
             }
             await context.octokit.issues.removeLabel(context.issue({

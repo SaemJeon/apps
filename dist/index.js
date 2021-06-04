@@ -61,7 +61,7 @@ module.exports = function (app) {
                     _b.sent();
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
-                        body: "This branch is not up-to-date with the " + context.payload.pull_request.base.ref + " branch",
+                        body: "This branch is not up-to-date with the target branch, " + context.payload.pull_request.base.ref,
                     }))];
                 case 3:
                     _b.sent();
