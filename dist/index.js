@@ -88,10 +88,22 @@ module.exports = function (app) {
             }
         });
     }); });
-    // For more information on building apps:
-    // https://probot.github.io/docs/
-    // To get your app running against GitHub, see:
-    // https://probot.github.io/docs/development/
+    app.on("pull_request.labeled", function (context) { return __awaiter(void 0, void 0, void 0, function () {
+        var issueComment;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    app.log(context);
+                    issueComment = context.issue({
+                        body: "Pull request is labeled",
+                    });
+                    return [4 /*yield*/, context.octokit.issues.createComment(issueComment)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 };
 //# sourceMappingURL=app.js.map
 
