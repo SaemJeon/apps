@@ -4,9 +4,6 @@ export = (app: Probot) => {
     app.log("Probot app started");
 
     app.on("pull_request.labeled", async (context) => {
-        app.log(context);
-        app.log(context.payload.pull_request.base.ref);
-        app.log(context.payload.pull_request.mergeable_state);
         if (context.payload.label?.name == "extract-api") {
 
             if (context.payload.pull_request.mergeable_state == "clean") {
@@ -15,7 +12,7 @@ export = (app: Probot) => {
                 }));
             } else {
                 await context.octokit.issues.createComment(context.issue({
-                    body: `This branch is not up-to-date with the target branch, ${context.payload.pull_request.base.ref}`,
+                    body: `This branch, ${context.payload.pull_request.head.ref} is not up-to-date with the target branch, ${context.payload.pull_request.base.ref}`,
                 }));
             }
             await context.octokit.issues.removeLabel(context.issue({

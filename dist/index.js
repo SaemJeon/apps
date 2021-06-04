@@ -49,9 +49,6 @@ module.exports = function (app) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    app.log(context);
-                    app.log(context.payload.pull_request.base.ref);
-                    app.log(context.payload.pull_request.mergeable_state);
                     if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 6];
                     if (!(context.payload.pull_request.mergeable_state == "clean")) return [3 /*break*/, 2];
                     return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
@@ -61,7 +58,7 @@ module.exports = function (app) {
                     _b.sent();
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
-                        body: "This branch is not up-to-date with the target branch, " + context.payload.pull_request.base.ref,
+                        body: "This branch, " + context.payload.pull_request.head.ref + " is not up-to-date with the target branch, " + context.payload.pull_request.base.ref,
                     }))];
                 case 3:
                     _b.sent();
