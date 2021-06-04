@@ -13,11 +13,11 @@
   ],
   "scripts": {
     "build": "tsc",
-    "start": "probot run ./lib/index.js",
+    "start": "node ./lib/index.js",
     "test": "jest"
   },
   "dependencies": {
-    "probot": "^11.0.1"
+    "@probot/adapter-github-actions": "^3.0.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.19",
