@@ -90,18 +90,26 @@ module.exports = function (app) {
         });
     }); });
     app.on("pull_request.labeled", function (context) { return __awaiter(void 0, void 0, void 0, function () {
-        var issueComment;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var issueComment, label;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    app.log(context);
+                    if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 3];
                     issueComment = context.issue({
-                        body: "Pull request is labeled",
+                        body: "Label is changed to extract-api",
                     });
                     return [4 /*yield*/, context.octokit.issues.createComment(issueComment)];
                 case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                    _b.sent();
+                    label = context.issue({
+                        name: "extract-api"
+                    });
+                    return [4 /*yield*/, context.octokit.issues.removeLabel(label)];
+                case 2:
+                    _b.sent();
+                    _b.label = 3;
+                case 3: return [2 /*return*/];
             }
         });
     }); });
