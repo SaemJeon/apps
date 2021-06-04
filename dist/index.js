@@ -45,23 +45,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 module.exports = function (app) {
     app.log("Probot app started");
     app.on("pull_request.labeled", function (context) { return __awaiter(void 0, void 0, void 0, function () {
-        var issueComment, label;
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     app.log(context);
+                    app.log(context.payload.pull_request.base.ref);
+                    app.log(context.payload.pull_request.mergeable_state);
                     if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 3];
-                    issueComment = context.issue({
-                        body: "Label is changed to extract-api",
-                    });
-                    return [4 /*yield*/, context.octokit.issues.createComment(issueComment)];
+                    return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
+                            body: "Executing rush extract-api",
+                        }))];
                 case 1:
                     _b.sent();
-                    label = context.issue({
-                        name: "extract-api"
-                    });
-                    return [4 /*yield*/, context.octokit.issues.removeLabel(label)];
+                    return [4 /*yield*/, context.octokit.issues.removeLabel(context.issue({
+                            name: "extract-api"
+                        }))];
                 case 2:
                     _b.sent();
                     _b.label = 3;
