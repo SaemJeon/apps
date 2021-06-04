@@ -1,4 +1,4 @@
-import { run } from "@probot/adapter-github-actions";
+import { run } from "probot";
 import app = require("./app");
 
 run(app).catch((error) => {
