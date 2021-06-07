@@ -15,6 +15,7 @@ export = (app: Probot) => {
                 }));
             } else {
                 // TODO: Delete this when ready
+                run("pwd");
                 run("echo hello");
                 run("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
                 run("git config --local user.name imodeljs-admin");

@@ -63,6 +63,7 @@ module.exports = function (app) {
                     return [3 /*break*/, 4];
                 case 2:
                     // TODO: Delete this when ready
+                    functions_1.run("pwd");
                     functions_1.run("echo hello");
                     functions_1.run("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
                     functions_1.run("git config --local user.name imodeljs-admin");
