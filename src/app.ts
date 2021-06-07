@@ -6,6 +6,7 @@ export = (app: Probot) => {
 
     commands(app, "label", (context: any, command: any) => {
         const labels = command.arguments.splot(/, */);
+        app.log("HELLO");
         return context.github.issues.addLabels(context.issue({ labels }));
     });
 
