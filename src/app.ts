@@ -21,6 +21,7 @@ export = (app: Probot) => {
                 exec("rush extract-api");
                 exec("git add .");
                 exec("git commit --amend --no-edit ");
+                exec("git push");
             } else {
                 await context.octokit.issues.createComment(context.issue({
                     body: `This branch, ${thisBranch}, is not up-to-date with the target branch, ${targetBranch}`,
@@ -34,6 +35,7 @@ export = (app: Probot) => {
                 exec("rush extract-api");
                 exec("git add .");
                 exec("git commit --amend --no-edit ");
+                exec("git push");
             }
             await context.octokit.issues.removeLabel(context.issue({
                 name: "extract-api"

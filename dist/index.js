@@ -68,6 +68,7 @@ module.exports = function (app) {
                     child_process_1.exec("rush extract-api");
                     child_process_1.exec("git add .");
                     child_process_1.exec("git commit --amend --no-edit ");
+                    child_process_1.exec("git push");
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
                         body: "This branch, " + thisBranch + ", is not up-to-date with the target branch, " + targetBranch,
@@ -83,6 +84,7 @@ module.exports = function (app) {
                     child_process_1.exec("rush extract-api");
                     child_process_1.exec("git add .");
                     child_process_1.exec("git commit --amend --no-edit ");
+                    child_process_1.exec("git push");
                     _b.label = 4;
                 case 4: return [4 /*yield*/, context.octokit.issues.removeLabel(context.issue({
                         name: "extract-api"
