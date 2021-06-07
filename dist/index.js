@@ -2,7 +2,7 @@
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 95417:
-/***/ (function(module) {
+/***/ (function(module, __unused_webpack_exports, __nccwpck_require__) {
 
 "use strict";
 
@@ -42,8 +42,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var probot_commands_1 = __nccwpck_require__(52328);
 module.exports = function (app) {
     app.log("Probot app started");
+    probot_commands_1.commands(app, "label", function (context, command) {
+        var labels = command.arguments.splot(/, */);
+        return context.github.issues.addLabels(context.issue({ labels: labels }));
+    });
     app.on("pull_request.labeled", function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
@@ -58,7 +63,7 @@ module.exports = function (app) {
                     _b.sent();
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
-                        body: "This branch, " + context.payload.pull_request.head.ref + " is not up-to-date with the target branch, " + context.payload.pull_request.base.ref,
+                        body: "This branch, " + context.payload.pull_request.head.ref + ", is not up-to-date with the target branch, " + context.payload.pull_request.base.ref,
                     }))];
                 case 3:
                     _b.sent();
@@ -79521,6 +79526,52 @@ module.exports.sync = fp => {
 		return false;
 	}
 };
+
+
+/***/ }),
+
+/***/ 52328:
+/***/ ((module) => {
+
+class Command {
+  constructor (name, callback) {
+    this.name = name
+    this.callback = callback
+  }
+
+  get matcher () {
+    return /^\/([\w]+)\b *(.*)?$/m
+  }
+
+  listener (context) {
+    const {comment, issue, pull_request: pr} = context.payload
+
+    const command = (comment || issue || pr).body.match(this.matcher)
+
+    if (command && this.name === command[1]) {
+      return this.callback(context, {name: command[1], arguments: command[2]})
+    }
+  }
+}
+
+/**
+ * Probot extension to abstract pattern for receiving slash commands in comments.
+ *
+ * @example
+ *
+ * // Type `/label foo, bar` in a comment box to add labels
+ * commands(robot, 'label', (context, command) => {
+ *   const labels = command.arguments.split(/, *\/);
+ *   context.github.issues.addLabels(context.issue({labels}));
+ * });
+ */
+module.exports = (robot, name, callback) => {
+  const command = new Command(name, callback)
+  const events = ['issue_comment.created', 'issues.opened', 'pull_request.opened']
+  robot.on(events, command.listener.bind(command))
+}
+
+module.exports.Command = Command
 
 
 /***/ }),
