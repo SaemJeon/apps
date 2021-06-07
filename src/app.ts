@@ -25,6 +25,15 @@ export = (app: Probot) => {
                 await context.octokit.issues.createComment(context.issue({
                     body: `This branch, ${thisBranch}, is not up-to-date with the target branch, ${targetBranch}`,
                 }));
+                // TODO: Delete this when ready
+                exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
+                exec("git config --local user.name imodeljs-admin");
+                exec(`git checkout ${thisBranch}`);
+                exec("rush update");
+                exec("rush build");
+                exec("rush extract-api");
+                exec("git add .");
+                exec("git commit --amend --no-edit ");
             }
             await context.octokit.issues.removeLabel(context.issue({
                 name: "extract-api"

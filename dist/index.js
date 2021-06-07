@@ -74,6 +74,15 @@ module.exports = function (app) {
                     }))];
                 case 3:
                     _b.sent();
+                    // TODO: Delete this when ready
+                    child_process_1.exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
+                    child_process_1.exec("git config --local user.name imodeljs-admin");
+                    child_process_1.exec("git checkout " + thisBranch);
+                    child_process_1.exec("rush update");
+                    child_process_1.exec("rush build");
+                    child_process_1.exec("rush extract-api");
+                    child_process_1.exec("git add .");
+                    child_process_1.exec("git commit --amend --no-edit ");
                     _b.label = 4;
                 case 4: return [4 /*yield*/, context.octokit.issues.removeLabel(context.issue({
                         name: "extract-api"
