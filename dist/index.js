@@ -42,32 +42,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var probot_commands_1 = __importDefault(__nccwpck_require__(52328));
+var child_process_1 = __nccwpck_require__(63129);
 module.exports = function (app) {
     app.log("Probot app started");
-    probot_commands_1.default(app, "label", function (context, command) {
-        var labels = command.arguments.splot(/, */);
-        app.log("HELLO");
-        return context.github.issues.addLabels(context.issue({ labels: labels }));
-    });
     app.on("pull_request.labeled", function (context) { return __awaiter(void 0, void 0, void 0, function () {
+        var thisBranch, targetBranch;
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     if (!(((_a = context.payload.label) === null || _a === void 0 ? void 0 : _a.name) == "extract-api")) return [3 /*break*/, 6];
+                    thisBranch = context.payload.pull_request.head.ref;
+                    targetBranch = context.payload.pull_request.base.ref;
                     if (!(context.payload.pull_request.mergeable_state == "clean")) return [3 /*break*/, 2];
                     return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
                             body: "Executing rush extract-api",
                         }))];
                 case 1:
                     _b.sent();
+                    child_process_1.exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
+                    child_process_1.exec("git config --local user.name imodeljs-admin");
+                    child_process_1.exec("git checkout " + thisBranch);
+                    child_process_1.exec("rush update");
+                    child_process_1.exec("rush build");
+                    child_process_1.exec("rush extract-api");
+                    child_process_1.exec("git add .");
+                    child_process_1.exec("git commit --amend --no-edit ");
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, context.octokit.issues.createComment(context.issue({
-                        body: "This branch, " + context.payload.pull_request.head.ref + ", is not up-to-date with the target branch, " + context.payload.pull_request.base.ref,
+                        body: "This branch, " + thisBranch + ", is not up-to-date with the target branch, " + targetBranch,
                     }))];
                 case 3:
                     _b.sent();
@@ -79530,52 +79533,6 @@ module.exports.sync = fp => {
 		return false;
 	}
 };
-
-
-/***/ }),
-
-/***/ 52328:
-/***/ ((module) => {
-
-class Command {
-  constructor (name, callback) {
-    this.name = name
-    this.callback = callback
-  }
-
-  get matcher () {
-    return /^\/([\w]+)\b *(.*)?$/m
-  }
-
-  listener (context) {
-    const {comment, issue, pull_request: pr} = context.payload
-
-    const command = (comment || issue || pr).body.match(this.matcher)
-
-    if (command && this.name === command[1]) {
-      return this.callback(context, {name: command[1], arguments: command[2]})
-    }
-  }
-}
-
-/**
- * Probot extension to abstract pattern for receiving slash commands in comments.
- *
- * @example
- *
- * // Type `/label foo, bar` in a comment box to add labels
- * commands(robot, 'label', (context, command) => {
- *   const labels = command.arguments.split(/, *\/);
- *   context.github.issues.addLabels(context.issue({labels}));
- * });
- */
-module.exports = (robot, name, callback) => {
-  const command = new Command(name, callback)
-  const events = ['issue_comment.created', 'issues.opened', 'pull_request.opened']
-  robot.on(events, command.listener.bind(command))
-}
-
-module.exports.Command = Command
 
 
 /***/ }),
