@@ -27,6 +27,7 @@ export = (app: Probot) => {
                     body: `This branch, ${thisBranch}, is not up-to-date with the target branch, ${targetBranch}`,
                 }));
                 // TODO: Delete this when ready
+                exec("echo hello");
                 exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
                 exec("git config --local user.name imodeljs-admin");
                 exec(`git checkout ${thisBranch}`);

@@ -76,6 +76,7 @@ module.exports = function (app) {
                 case 3:
                     _b.sent();
                     // TODO: Delete this when ready
+                    child_process_1.exec("echo hello");
                     child_process_1.exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
                     child_process_1.exec("git config --local user.name imodeljs-admin");
                     child_process_1.exec("git checkout " + thisBranch);
