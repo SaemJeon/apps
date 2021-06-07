@@ -1,5 +1,5 @@
 import { Probot } from "probot";
-import { exec } from "child_process";
+import { run } from "./functions";
 
 export = (app: Probot) => {
     app.log("Probot app started");
@@ -13,30 +13,21 @@ export = (app: Probot) => {
                 await context.octokit.issues.createComment(context.issue({
                     body: "Executing rush extract-api",
                 }));
-                exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
-                exec("git config --local user.name imodeljs-admin");
-                exec(`git checkout ${thisBranch}`);
-                exec("rush update");
-                exec("rush build");
-                exec("rush extract-api");
-                exec("git add .");
-                exec("git commit --amend --no-edit ");
-                exec("git push");
             } else {
+                // TODO: Delete this when ready
+                run("echo hello");
+                run("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
+                run("git config --local user.name imodeljs-admin");
+                run(`git checkout ${thisBranch}`);
+                run("rush update");
+                run("rush build");
+                run("rush extract-api");
+                run("git add .");
+                run("git commit --amend --no-edit ");
+                run("git push");
                 await context.octokit.issues.createComment(context.issue({
                     body: `This branch, ${thisBranch}, is not up-to-date with the target branch, ${targetBranch}`,
                 }));
-                // TODO: Delete this when ready
-                exec("echo hello");
-                exec("git config --local user.email 38288322+imodeljs-admin@users.noreply.github.com");
-                exec("git config --local user.name imodeljs-admin");
-                exec(`git checkout ${thisBranch}`);
-                exec("rush update");
-                exec("rush build");
-                exec("rush extract-api");
-                exec("git add .");
-                exec("git commit --amend --no-edit ");
-                exec("git push");
             }
             await context.octokit.issues.removeLabel(context.issue({
                 name: "extract-api"
